@@ -213,18 +213,68 @@ class HomeScreen extends StatelessWidget {
                                                   .previewImage ==
                                               null
                                           ? Container()
-                                          : ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              child: SizedBox(
-                                                height: 15.h,
-                                                child: CachedNetworkImage(
-                                                  imageUrl:
-                                                      "${ApiEndPoints.imageBaseUrl}${homeScreenController.customerHomeBlogList[index].previewImage}"
-                                                          .trim(),
-                                                  fit: BoxFit.fitHeight,
+                                          : Stack(
+                                              children: [
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  child: SizedBox(
+                                                    height: 15.h,
+                                                    child: CachedNetworkImage(
+                                                      imageUrl:
+                                                          "${ApiEndPoints.imageBaseUrl}${homeScreenController.customerHomeBlogList[index].previewImage}"
+                                                              .trim(),
+                                                      fit: BoxFit.fitHeight,
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
+                                                Positioned(
+                                                  left: 14.h,
+                                                  top: 1.h,
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    15)),
+                                                        color: Colors.white
+                                                            .withOpacity(0.5)),
+                                                    height: 4.h,
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Row(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Transform.scale(
+                                                              scale: 1.2,
+                                                              child: SvgPicture
+                                                                  .asset(
+                                                                "assets/eye_image.svg",
+                                                                height: 2.8.h,
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                                width: 1.w),
+                                                            Text(
+                                                              "24",
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500),
+                                                            )
+                                                          ]),
+                                                    ),
+                                                    width: 7.h,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
