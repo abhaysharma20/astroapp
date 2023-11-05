@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -42,6 +43,234 @@ class HomeScreen extends StatelessWidget {
                   fontSize: 15.sp,
                   fontWeight: FontWeight.w600,
                   color: Colors.grey[500]),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget homeScreenBody() {
+    return SingleChildScrollView(
+      padding: EdgeInsets.zero,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          homeScreenController.bannerList.isNotEmpty
+              ? Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                  shadowColor: Colors.grey,
+                  borderOnForeground: false,
+                  color: Colors.white,
+                  elevation: 2,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 1.h, top: 1.h),
+                    child: CarouselWithIndicator(
+                        images: homeScreenController.bannerList),
+                  ),
+                )
+              : Container(),
+          headingRow(heading: "Astrologers", onTap: () {}),
+          Padding(
+            padding: EdgeInsets.only(bottom: 1.2.h, left: 1.2.h, right: 1.2.h),
+            child: SizedBox(
+              height: Get.height / 4.2,
+              width: Get.width,
+              child: homeScreenController.astrologerRecordList.isNotEmpty
+                  ? ListView.builder(
+                      itemCount:
+                          homeScreenController.astrologerRecordList.length,
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return SizedBox(
+                          width: Get.width / 3,
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            shadowColor: Colors.grey,
+                            borderOnForeground: true,
+                            color: Colors.white,
+                            elevation: 4,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  right: 0.5.h,
+                                  left: 0.5.h,
+                                  top: 0.5.h,
+                                  bottom: 0.5.h),
+                              child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    homeScreenController
+                                                .astrologerRecordList[index]
+                                                .profileImage ==
+                                            null
+                                        ? Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: CircleAvatar(
+                                              backgroundColor:
+                                                  Colors.yellow[200],
+                                              radius: 4.7.h,
+                                              child: CircleAvatar(
+                                                child: SvgPicture.asset(
+                                                    "assets/userDefaultImage.svg"),
+                                                radius: 4.5.h,
+                                              ),
+                                            ),
+                                          )
+                                        : Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: CircleAvatar(
+                                              backgroundColor:
+                                                  Colors.yellow[200],
+                                              radius: 4.7.h,
+                                              child: CircleAvatar(
+                                                backgroundImage: NetworkImage(
+                                                    "${ApiEndPoints.imageBaseUrl}${homeScreenController.astrologerRecordList[index].profileImage}"
+                                                        .trim()),
+                                                radius: 4.5.h,
+                                              ),
+                                            ),
+                                          ),
+                                    Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                              homeScreenController
+                                                  .astrologerRecordList[index]
+                                                  .name!,
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 16.sp)),
+                                          SizedBox(height: 0.5.h),
+                                          Text(
+                                              "₹ ${homeScreenController.astrologerRecordList[index].charge!.toString()}/min"),
+                                          SizedBox(height: 0.5.h),
+                                          Utility.appButton(
+                                              color: Colors.white,
+                                              borderColor: Colors.green,
+                                              height: 4.h,
+                                              bottomPadding: 1.h,
+                                              context,
+                                              textColor: Colors.green,
+                                              fontWeight: FontWeight.w500,
+                                              "Connect",
+                                              fontSize: 15.sp,
+                                              () {}),
+                                        ]),
+                                  ]),
+                            ),
+                          ),
+                        );
+                      })
+                  : const Center(child: Text("No Astrologers List Fetched")),
+            ),
+          ),
+          headingRow(
+              heading: "Latest from blog", onTap: () {}, hideTopPadding: true),
+          Padding(
+            padding: EdgeInsets.only(bottom: 1.2.h, left: 1.2.h, right: 1.2.h),
+            child: SizedBox(
+              height: Get.height / 4,
+              width: Get.width,
+              child: homeScreenController.customerHomeBlogList.isNotEmpty
+                  ? ListView.builder(
+                      itemCount:
+                          homeScreenController.customerHomeBlogList.length,
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: EdgeInsets.only(
+                            right: 0.5.h,
+                          ),
+                          child: SizedBox(
+                            width: Get.width / 2,
+                            height: 25.h,
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              shadowColor: Colors.grey,
+                              borderOnForeground: false,
+                              color: Colors.white,
+                              elevation: 4,
+                              child: Padding(
+                                padding: EdgeInsets.only(bottom: 0.5.h),
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      homeScreenController
+                                                  .customerHomeBlogList[index]
+                                                  .previewImage ==
+                                              null
+                                          ? Container()
+                                          : ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              child: SizedBox(
+                                                height: 15.h,
+                                                child: CachedNetworkImage(
+                                                  imageUrl:
+                                                      "${ApiEndPoints.imageBaseUrl}${homeScreenController.customerHomeBlogList[index].previewImage}"
+                                                          .trim(),
+                                                  fit: BoxFit.fitHeight,
+                                                ),
+                                              ),
+                                            ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                  homeScreenController
+                                                      .customerHomeBlogList[
+                                                          index]
+                                                      .title!,
+                                                  maxLines: 1,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 17.sp)),
+                                              SizedBox(height: 1.h),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                      "User ${homeScreenController.customerHomeBlogList[index].createdBy!}"),
+                                                  Text(DateFormat(
+                                                          "MMM DD, yyyy")
+                                                      .format(DateTime.parse(
+                                                          homeScreenController
+                                                              .customerHomeBlogList[
+                                                                  index]
+                                                              .createdAt!))),
+                                                ],
+                                              )
+                                            ]),
+                                      ),
+                                    ]),
+                              ),
+                            ),
+                          ),
+                        );
+                      })
+                  : const Center(child: Text("No Blogs List Fetched")),
             ),
           ),
         ],
@@ -122,261 +351,16 @@ class HomeScreen extends StatelessWidget {
       body: FutureBuilder(
           future: getAPI(),
           builder: (context, snapshot) {
-            return SingleChildScrollView(
-              padding: EdgeInsets.zero,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  homeScreenController.bannerList.isNotEmpty
-                      ? Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(2),
-                          ),
-                          shadowColor: Colors.grey,
-                          borderOnForeground: false,
-                          color: Colors.white,
-                          elevation: 2,
-                          child: Padding(
-                            padding: EdgeInsets.only(bottom: 1.h, top: 1.h),
-                            child: CarouselWithIndicator(
-                                images: homeScreenController.bannerList),
-                          ),
-                        )
-                      : Container(),
-                  headingRow(heading: "Astrologers", onTap: () {}),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        bottom: 1.2.h, left: 1.2.h, right: 1.2.h),
-                    child: SizedBox(
-                      height: Get.height / 4,
-                      width: Get.width,
-                      child: homeScreenController
-                              .astrologerRecordList.isNotEmpty
-                          ? GridView.builder(
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 3,
-                                      childAspectRatio: 0.068.h),
-                              itemCount: homeScreenController
-                                          .astrologerRecordList.length >
-                                      3
-                                  ? 3
-                                  : homeScreenController
-                                      .astrologerRecordList.length,
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                return SizedBox(
-                                  width: Get.width / 3,
-                                  child: Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    shadowColor: Colors.grey,
-                                    borderOnForeground: true,
-                                    color: Colors.white,
-                                    elevation: 4,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          right: 0.5.h,
-                                          left: 0.5.h,
-                                          top: 0.5.h,
-                                          bottom: 0.5.h),
-                                      child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            homeScreenController
-                                                        .astrologerRecordList[
-                                                            index]
-                                                        .profileImage ==
-                                                    null
-                                                ? Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: CircleAvatar(
-                                                      backgroundColor:
-                                                          Colors.yellow[200],
-                                                      radius: 4.7.h,
-                                                      child: CircleAvatar(
-                                                        child: SvgPicture.asset(
-                                                            "assets/userDefaultImage.svg"),
-                                                        radius: 4.5.h,
-                                                      ),
-                                                    ),
-                                                  )
-                                                : Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: CircleAvatar(
-                                                      backgroundColor:
-                                                          Colors.yellow[200],
-                                                      radius: 4.7.h,
-                                                      child: CircleAvatar(
-                                                        backgroundImage:
-                                                            NetworkImage(
-                                                                "${ApiEndPoints.imageBaseUrl}${homeScreenController.astrologerRecordList[index].profileImage}"
-                                                                    .trim()),
-                                                        radius: 4.5.h,
-                                                      ),
-                                                    ),
-                                                  ),
-                                            Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                      homeScreenController
-                                                          .astrologerRecordList[
-                                                              index]
-                                                          .name!,
-                                                      maxLines: 1,
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          fontSize: 16.sp)),
-                                                  SizedBox(height: 0.5.h),
-                                                  Text(
-                                                      "₹ ${homeScreenController.astrologerRecordList[index].charge!.toString()}/min"),
-                                                  SizedBox(height: 0.5.h),
-                                                  Utility.appButton(
-                                                      color: Colors.white,
-                                                      borderColor: Colors.green,
-                                                      height: 4.h,
-                                                      bottomPadding: 1.h,
-                                                      context,
-                                                      textColor: Colors.green,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      "Connect",
-                                                      fontSize: 15.sp,
-                                                      () {}),
-                                                ]),
-                                          ]),
-                                    ),
-                                  ),
-                                );
-                              })
-                          : const Center(
-                              child: Text("No Astrologers List Fetched")),
-                    ),
-                  ),
-                  headingRow(
-                      heading: "Latest from blog",
-                      onTap: () {},
-                      hideTopPadding: true),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        bottom: 1.2.h, left: 1.2.h, right: 1.2.h),
-                    child: SizedBox(
-                      height: Get.height / 4,
-                      width: Get.width,
-                      child: homeScreenController
-                              .customerHomeBlogList.isNotEmpty
-                          ? ListView.builder(
-                              itemCount: homeScreenController
-                                  .customerHomeBlogList.length,
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: EdgeInsets.only(
-                                    right: 0.5.h,
-                                  ),
-                                  child: SizedBox(
-                                    width: Get.width / 2,
-                                    height: 25.h,
-                                    child: Card(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                      shadowColor: Colors.grey,
-                                      borderOnForeground: false,
-                                      color: Colors.white,
-                                      elevation: 4,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(bottom: 0.5.h),
-                                        child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              homeScreenController
-                                                          .customerHomeBlogList[
-                                                              index]
-                                                          .previewImage ==
-                                                      null
-                                                  ? Container()
-                                                  : ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      child: SizedBox(
-                                                        height: 15.h,
-                                                        child:
-                                                            CachedNetworkImage(
-                                                          imageUrl:
-                                                              "${ApiEndPoints.imageBaseUrl}${homeScreenController.customerHomeBlogList[index].previewImage}"
-                                                                  .trim(),
-                                                          fit: BoxFit.fitHeight,
-                                                        ),
-                                                      ),
-                                                    ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(
-                                                          homeScreenController
-                                                              .customerHomeBlogList[
-                                                                  index]
-                                                              .title!,
-                                                          maxLines: 1,
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              fontSize: 17.sp)),
-                                                      SizedBox(height: 1.h),
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Text(
-                                                              "User ${homeScreenController.customerHomeBlogList[index].createdBy!}"),
-                                                          Text(DateFormat(
-                                                                  "MMM DD, yyyy")
-                                                              .format(DateTime.parse(
-                                                                  homeScreenController
-                                                                      .customerHomeBlogList[
-                                                                          index]
-                                                                      .createdAt!))),
-                                                        ],
-                                                      )
-                                                    ]),
-                                              ),
-                                            ]),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              })
-                          : const Center(child: Text("No Blogs List Fetched")),
-                    ),
-                  ),
-                ],
-              ),
-            );
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Shimmer.fromColors(
+                  baseColor: Colors.grey[300]!,
+                  highlightColor: Colors.grey[100]!,
+                  child:
+                      homeScreenBody() // Replace YourContentWidget with your actual content widget
+                  );
+            } else {
+              return homeScreenBody();
+            }
           }),
       bottomNavigationBar: Container(
         color: Colors.transparent,
