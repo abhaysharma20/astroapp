@@ -14,7 +14,6 @@ class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
   final homeScreenController = Get.put(HomeScreenController());
-
   Future<void> getAPI() async {
     await homeScreenController.getAstrologersList();
     await homeScreenController.getCustomerHome();
